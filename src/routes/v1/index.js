@@ -2,9 +2,11 @@ const express=require("express")
 
 const UserController=require('../../controllers/user-controller')
 const router=express.Router();
+const {AuthRequestValidator}=require('../../middlewares/index')
 
 
-router.post('/signup',UserController.create)
 
-router.post('/signIn',UserController.signIn)
+router.post('/signup',AuthRequestValidator.validateUserAuth,UserController.create)
+
+router.post('/signIn',AuthRequestValidator.validateUserAuth,UserController.signIn)
 module.exports=router
