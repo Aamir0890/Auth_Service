@@ -27,6 +27,26 @@ const create=async(req,res)=>{
     }
 }
 
+const signIn=async(req,res)=>{
+    try{ const response=await userService.signIn(req.body.email,req.body.password);
+        res.status(200).json({
+            token:response,
+            success:true,
+            message:"Successfully fetched the jwt token",
+            err:{}
+        })
+
+    }catch(error){
+        console.log(error);
+        res.status(500).json({
+            data:{},
+            message:"Somethign went wrong",
+            success:false,
+            err:error
+        })
+    }
+}
+
 module.exports={
-    create
+    create,signIn
 }
