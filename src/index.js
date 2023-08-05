@@ -5,6 +5,7 @@ const {PORT} =require('./config/serverConfig')
 const apiRoutes=require('./routes/index');
 const bodyParser = require('body-parser');
 
+// const UserRepository=require('./repository/user-repository')
 
 const prepareAndStartServer=()=>{
       
@@ -13,8 +14,13 @@ const prepareAndStartServer=()=>{
 
     app.use('/api',apiRoutes);
 
-    app.listen(PORT,()=>{
+    app.listen(PORT,async()=>{
         console.log(`Server started at ${PORT}`);
+        // const repo=new UserRepository();
+        // const respponse= await repo.getById(1);
+        // console.log(respponse);
+
+
     })
 }
 
