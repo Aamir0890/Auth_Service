@@ -1,7 +1,8 @@
 const jwt=require('jsonwebtoken');
 const {JWT_KEY}=require('../config/serverConfig')
 const UserRepository=require('../repository/user-repository')
-const bcrypt=require('bcrypt')
+const bcrypt=require('bcrypt');
+const { use } = require('../routes');
 
 class UserService{
     constructor() {
@@ -54,6 +55,23 @@ class UserService{
             throw error
         }
     }
+    isAuthenticated(token){
+       try{
+      const response=this.verifyToken(token);
+        if(!response){
+            throw{error:"Invalid token"}
+        }
+        const user= this.userRepository.getById(response.id);
+        if(!user){
+            throw {error:"No user with the corresponding token"}
+        }
+        return user.id;
+       }catch(error){
+        console.log("Something went wrong in auth process in service layer",error);
+        throw error
+       }
+        }
+
 
        checkPassowrd(userInputPlanePassword,encryptedPassword){
         try{

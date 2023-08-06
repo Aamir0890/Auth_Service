@@ -47,6 +47,27 @@ const signIn=async(req,res)=>{
     }
 }
 
+const isAuthenticated=async(req,res)=>{
+    try{
+        const token=req.headers['x-access-token'];
+        const response=await userService.isAuthenticated(token);
+         res.status(200).json({
+            success:true,
+            data:response,
+            message:'user is authenticated and token is valid',
+            err:{}
+         })
+    }catch(error){
+        console.log(error);
+        res.status(500).json({
+            data:{},
+            message:"Somethign went wrong",
+            success:false,
+            err:error
+        })
+    }
+}
+
 module.exports={
-    create,signIn
+    create,signIn,isAuthenticated
 }
