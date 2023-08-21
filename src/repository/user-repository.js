@@ -1,5 +1,7 @@
-const {User,Role}=require('../models/index')
+const {User,Role}=require('../models/index');
+const ClientError = require('../utils/client-error');
 const ValidationError=require('../utils/validation-error')
+const {StatusCodes}=require('http-status-codes')
 class UserRepository{
       async create(data){
         try{
@@ -41,6 +43,14 @@ class UserRepository{
       async getByEmail(userEmail){
         try{
       const user=await User.findOne({where:{email:userEmail}},{attributes:['password']})
+      if(!user){
+        throw new ClientError(
+          'Emial not found',
+          'Invalid email send in the request',
+          'Please check the email as there is no record',
+           StatusCodes.NOT_FOUND
+        )
+      }
       return user;
         }catch(error){
             console.log("Something went wrong in the repository layer");
@@ -56,6 +66,7 @@ const adminRole=await Role.findOne({
   }
     
 }) 
+
 return user.hasRole(adminRole)
         }catch(error){
           console.log("Something went wrong in the repository layer");

@@ -21,6 +21,16 @@ class UserService{
             throw error;
         }
     }
+    async getById(userId){
+        try{ 
+            const user=await this.userRepository.getById(userId)
+            return user;
+
+        }catch(error){
+            console.log("Something went wrong on the service layer in getById")
+            throw error;
+        }
+    }
     
     createToken(user){
         try {
@@ -44,6 +54,9 @@ class UserService{
            const newJWT=this.createToken({email:user.email,id:user.id});
             return newJWT;
         }catch(error){
+            if(error.name==='AttributeNotFound'){
+                throw error
+            }
             console.log("SOmething went wrong in the signIn process");
             throw error
         }
@@ -86,6 +99,7 @@ class UserService{
         }
 
        }
+
        isAdmin(userId){
       try{
          return this.userRepository.isAdmin(userId)

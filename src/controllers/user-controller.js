@@ -38,11 +38,11 @@ const signIn=async(req,res)=>{
 
     }catch(error){
         console.log(error);
-        res.status(500).json({
+        res.status(error.statusCode).json({
             data:{},
-            message:"Somethign went wrong",
+            message:error.message,
             success:false,
-            err:error
+            err:error.explanation
         })
     }
 }
@@ -85,7 +85,26 @@ const isAdmin=async(req,res)=>{
         })
     }
 }
+const getById=async(req,res)=>{
+    try{
+        const response=await userService.getById(req.params.id)
+        return res.status(200).json({
+            message:"Successfuly fecthed the email of user",
+            data:response,
+            err:{},
+            success:true
+          })
+
+    }catch(error){
+        res.status(500).json({
+            data:{},
+            message:"Somethign went wrong in controller",
+            success:false,
+            err:error
+        })
+    }
+}
 
 module.exports={
-    create,signIn,isAuthenticated,isAdmin
+    create,signIn,isAuthenticated,isAdmin,getById
 }

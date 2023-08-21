@@ -20,14 +20,7 @@ const db=require('./models/index')
         if(process.env.DB_SYNC){
   db.sequelize.sync({alter:true})
         }
-//        
-    //    const userRepository=new UserRepository();
-    //    const res=await userRepository.getPassword('post09@gmail.com');
-    // //    console.log(res);
-    //    const userService=new UserService();
-    //    const response=userService.checkPassowrd('098765',res.password)
-    //      console.log(response)
-    
+
     })
 }
 
